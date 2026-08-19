@@ -53,15 +53,17 @@
 
   --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','SF Pro Icons','Helvetica Neue',Helvetica,Arial,sans-serif;
 
-  --t-hero:clamp(2.6rem,min(7.4vw,7.6vh),6.4rem);
-  --t-section:clamp(2.3rem,5.6vw,5rem);
+  /* Échelle Apple : corps 17px, intro 21px, titre de section 64px, tout en 400 ou 600 */
+  --t-hero:clamp(2.6rem,min(6.4vw,7.2vh),4.5rem);
+  --t-section:clamp(2.5rem,5.2vw,4rem);
   --t-mega:clamp(4.5rem,15vw,13rem);
-  --t-lede:clamp(1.12rem,1.7vw,1.5rem);
-  --t-body:clamp(1rem,1.15vw,1.16rem);
-  --t-small:clamp(.82rem,.95vw,.92rem);
+  --t-lede:1.3125rem;      /* 21px */
+  --t-body:1.0625rem;      /* 17px */
+  --t-small:.875rem;       /* 14px */
 
   --gut:clamp(1.25rem,5vw,4rem);
-  --maxw:1120px;
+  --maxw:980px;            /* largeur de contenu Apple */
+  --textw:708px;           /* colonne de texte Apple */
   --ease:cubic-bezier(.22,.61,.36,1);
   --ease-apple:cubic-bezier(.28,.11,.32,1);
 }
@@ -70,8 +72,8 @@ html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto !important}
 body{
   margin:0;background:var(--white);color:var(--ink);
-  font-family:var(--font);font-size:var(--t-body);line-height:1.5;font-weight:400;
-  letter-spacing:-.01em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  font-family:var(--font);font-size:var(--t-body);line-height:1.47059;font-weight:400;
+  letter-spacing:-.022em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   overflow-x:hidden;overflow-x:clip;
 }
 img{max-width:100%;display:block}
@@ -86,7 +88,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* ---------- primitives ---------- */
 .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gut);width:100%}
-.wrap--wide{max-width:1320px}
+.wrap--wide{max-width:1024px}
 .screen{
   position:relative;min-height:100svh;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
@@ -94,17 +96,17 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .grey{background:var(--grey)}
 .eyebrow{
-  font-size:var(--t-small);font-weight:500;letter-spacing:.01em;color:var(--link);
+  font-size:var(--t-lede);font-weight:600;letter-spacing:.011em;color:var(--link);
   display:inline-flex;align-items:center;gap:.5rem;
 }
 .h-section{
-  font-size:var(--t-section);line-height:1.05;letter-spacing:-.035em;font-weight:600;
+  font-size:var(--t-section);line-height:1.0625;letter-spacing:-.009em;font-weight:600;
   text-wrap:balance;max-width:16ch;
 }
 .h-section.wide{max-width:22ch}
 .lede{
-  font-size:var(--t-lede);line-height:1.42;color:var(--ink-2);font-weight:400;
-  letter-spacing:-.015em;max-width:40ch;
+  font-size:var(--t-lede);line-height:1.381;color:var(--ink-2);font-weight:400;
+  letter-spacing:.011em;max-width:var(--textw);
 }
 .center{text-align:center;align-items:center}
 .center .h-section,.center .lede{margin-inline:auto}
@@ -113,19 +115,19 @@ b,strong{font-weight:600;color:var(--ink)}
 /* ---------- boutons ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
-  min-height:50px;padding:.78rem 1.6rem;border-radius:980px;
+  min-height:44px;padding:11px 21px;border-radius:980px;
   background:var(--accent-cta);color:#fff;font-size:1.0625rem;font-weight:400;
-  letter-spacing:-.01em;
+  line-height:1.235;letter-spacing:-.374px;
   transition:transform .3s var(--ease-apple),background .3s var(--ease-apple),opacity .3s;
 }
 .btn:hover{transform:scale(1.035);background:var(--accent-hover)}
 .btn:active{transform:scale(.99)}
 .btn--ghost{background:transparent;color:var(--link);box-shadow:inset 0 0 0 1px rgba(0,102,204,.35)}
 .btn--ghost:hover{background:rgba(0,102,204,.06)}
-.btn--big{min-height:56px;padding:.95rem 2rem;font-size:1.125rem}
+.btn--big{padding:14px 28px}
 .link{
   display:inline-flex;align-items:center;gap:.3rem;color:var(--link);
-  font-size:1.0625rem;transition:opacity .3s;
+  font-size:var(--t-body);letter-spacing:-.022em;transition:opacity .3s;
 }
 .link:hover{opacity:.72}
 .link .chev{transition:transform .3s var(--ease-apple)}
@@ -161,7 +163,7 @@ b,strong{font-weight:600;color:var(--ink)}
 }
 .menu-open .mobile-menu{pointer-events:auto}
 .mobile-menu a:not(.btn){
-  font-size:1.5rem;font-weight:500;letter-spacing:-.02em;padding-block:1rem;
+  font-size:1.5rem;font-weight:600;letter-spacing:-.02em;padding-block:1rem;
   border-bottom:1px solid var(--hair);
 }
 .mobile-menu .btn{margin-top:1.5rem;align-self:flex-start}
@@ -177,10 +179,10 @@ b,strong{font-weight:600;color:var(--ink)}
   text-align:center;overflow:clip;
 }
 .hero h1{
-  font-size:var(--t-hero);line-height:1.03;letter-spacing:-.045em;font-weight:600;
-  max-width:15ch;margin-inline:auto;text-wrap:balance;
+  font-size:var(--t-hero);line-height:1.05;letter-spacing:-.015em;font-weight:600;
+  max-width:none;margin-inline:auto;text-wrap:balance;
 }
-.hero h1 .lite{font-weight:300;color:var(--ink-2)}
+.hero h1 .lite{font-weight:600;color:inherit}
 .hero-eyebrow{margin-bottom:clamp(1rem,2.5vh,1.75rem)}
 .hero-lede{margin:clamp(1.1rem,2.5vh,1.75rem) auto 0;max-width:56ch;text-wrap:balance}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-top:clamp(1.5rem,3vh,2.25rem)}
@@ -200,13 +202,13 @@ b,strong{font-weight:600;color:var(--ink)}
   position:relative;width:min(560px,92vw);text-align:left;
   background:rgba(255,255,255,.72);
   backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);
-  border:1px solid rgba(0,0,0,.06);border-radius:22px;
+  border:1px solid rgba(0,0,0,.06);border-radius:18px;
   box-shadow:0 1px 2px rgba(0,0,0,.04),0 18px 50px -24px rgba(0,0,0,.22);
   padding:clamp(1.25rem,2.4vw,1.75rem);
   transform-style:preserve-3d;will-change:transform;
 }
 .panel-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
-.panel-count{font-size:clamp(1.75rem,3.4vw,2.5rem);line-height:1.05;letter-spacing:-.035em;font-weight:600;font-variant-numeric:tabular-nums}
+.panel-count{font-size:clamp(1.75rem,3.4vw,2.5rem);line-height:1.05;letter-spacing:-.012em;font-weight:600;font-variant-numeric:tabular-nums}
 .panel-label{margin-top:.3rem;font-size:var(--t-small);color:var(--ink-3)}
 .live{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;color:var(--ink-3);white-space:nowrap}
 .live-dot{position:relative;width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
@@ -244,7 +246,7 @@ b,strong{font-weight:600;color:var(--ink)}
 .ticker-item{
   display:inline-flex;align-items:center;gap:clamp(2rem,4vw,3.5rem);
   padding-inline:clamp(1rem,2vw,1.75rem);
-  font-size:clamp(1.25rem,2.6vw,2rem);letter-spacing:-.03em;font-weight:500;
+  font-size:clamp(1.25rem,2.6vw,2rem);letter-spacing:-.02em;font-weight:600;
   white-space:nowrap;color:var(--ink);
 }
 .ticker-item::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.5;flex:none}
@@ -265,11 +267,11 @@ b,strong{font-weight:600;color:var(--ink)}
   text-align:center;padding-inline:var(--gut);
 }
 .stat .k{
-  font-size:var(--t-mega);line-height:.9;letter-spacing:-.05em;font-weight:600;
+  font-size:var(--t-mega);line-height:.95;letter-spacing:-.015em;font-weight:600;
   font-variant-numeric:tabular-nums;color:var(--ink);
 }
 .stat .k .unit{color:var(--accent)}
-.stat .k.word{font-size:clamp(3rem,10vw,8.5rem);letter-spacing:-.045em}
+.stat .k.word{font-size:clamp(3rem,10vw,8.5rem);letter-spacing:-.015em}
 .stat .l{margin-top:clamp(1.25rem,3vh,2.25rem);font-size:var(--t-lede);color:var(--ink-2);max-width:24ch;text-wrap:balance}
 .stats-progress{
   position:absolute;left:50%;transform:translateX(-50%);bottom:clamp(2rem,6vh,4rem);
@@ -291,12 +293,12 @@ b,strong{font-weight:600;color:var(--ink)}
 .sv-node{fill:var(--white);stroke:rgba(0,0,0,.12);stroke-width:1}
 .sv-node.on{stroke:var(--accent);stroke-width:2}
 .sv-core{fill:var(--ink)}
-.sv-label{font-size:11px;font-weight:500;fill:var(--ink-3);letter-spacing:.02em}
+.sv-label{font-size:11px;font-weight:600;fill:var(--ink-3);letter-spacing:.02em}
 .sv-pulse{fill:var(--accent);opacity:0}
 .steps-texts{position:relative;min-height:clamp(300px,42vh,420px)}
 .step{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0}
-.step .num{font-size:var(--t-small);color:var(--link);font-weight:500;margin-bottom:1rem}
-.step h3{font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.08;letter-spacing:-.035em;font-weight:600;max-width:14ch}
+.step .num{font-size:var(--t-small);color:var(--link);font-weight:600;margin-bottom:1rem}
+.step h3{font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.0625;letter-spacing:-.012em;font-weight:600;max-width:14ch}
 .step p{margin-top:1.1rem;font-size:var(--t-lede);color:var(--ink-2);max-width:38ch;line-height:1.45}
 .step .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
 .step .tags span{font-size:.8125rem;color:var(--ink-2);background:var(--grey);border-radius:980px;padding:.4rem .85rem}
@@ -335,16 +337,20 @@ b,strong{font-weight:600;color:var(--ink)}
 .sector{
   flex:none;width:min(78vw,880px);margin-inline:clamp(.75rem,2vw,1.5rem);
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:clamp(1.5rem,4vw,3.5rem);
-  align-items:center;background:var(--grey);border-radius:28px;
+  align-items:center;background:var(--grey);border-radius:18px;
   padding:clamp(1.75rem,3.5vw,3.25rem);
   transition:background .5s var(--ease-apple);
 }
 .sector:hover{background:#efeff1}
-.sector .idx{font-size:var(--t-small);color:var(--link);font-weight:500}
-.sector h3{margin-top:.9rem;font-size:clamp(1.7rem,3.4vw,2.9rem);line-height:1.06;letter-spacing:-.035em;font-weight:600;max-width:12ch}
+.sector .idx{font-size:var(--t-small);color:var(--link);font-weight:600}
+.sector h3{margin-top:.9rem;font-size:clamp(1.7rem,3.4vw,2.9rem);line-height:1.0625;letter-spacing:-.012em;font-weight:600;max-width:12ch}
 .sector p{margin-top:1rem;font-size:var(--t-body);color:var(--ink-2);max-width:34ch;line-height:1.5}
 .sector .link{margin-top:1.75rem}
-.sector-art{aspect-ratio:1;display:grid;place-items:center}
+#sectorsGL{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;transition:opacity .8s var(--ease-apple)}
+#sectorsGL.on{opacity:1}
+.sector > *{position:relative;z-index:2}
+.sector-art{aspect-ratio:1;display:grid;place-items:center;z-index:0}
+.sector-art.gl svg{display:none}
 .sector-art svg{width:78%;height:auto;overflow:visible}
 .sector-art .st{fill:none;stroke:var(--ink);stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round;opacity:.75;vector-effect:non-scaling-stroke}
 .sector-art .ac{fill:none;stroke:var(--accent);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
@@ -360,8 +366,8 @@ b,strong{font-weight:600;color:var(--ink)}
   align-items:baseline;padding-block:clamp(2rem,5vh,3.25rem);
 }
 .channel + .channel{border-top:1px solid var(--hair)}
-.channel .n{font-size:var(--t-small);color:var(--link);font-weight:500;font-variant-numeric:tabular-nums}
-.channel h3{font-size:clamp(1.9rem,4.4vw,3.4rem);line-height:1.05;letter-spacing:-.04em;font-weight:600}
+.channel .n{font-size:var(--t-small);color:var(--link);font-weight:600;font-variant-numeric:tabular-nums}
+.channel h3{font-size:clamp(1.9rem,4.4vw,3.4rem);line-height:1.0625;letter-spacing:-.012em;font-weight:600}
 .channel p{margin-top:.75rem;font-size:var(--t-lede);color:var(--ink-2);max-width:46ch;line-height:1.4}
 @media (max-width:620px){.channel{grid-template-columns:1fr;gap:.75rem}}
 
@@ -370,8 +376,8 @@ b,strong{font-weight:600;color:var(--ink)}
   min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding-block:clamp(4rem,10vh,7rem);
 }
-.why-item .n{font-size:var(--t-small);color:var(--link);font-weight:500;margin-bottom:clamp(1rem,2.5vh,1.75rem)}
-.why-item h3{font-size:var(--t-section);line-height:1.05;letter-spacing:-.04em;font-weight:600;max-width:16ch;text-wrap:balance}
+.why-item .n{font-size:var(--t-small);color:var(--link);font-weight:600;margin-bottom:clamp(1rem,2.5vh,1.75rem)}
+.why-item h3{font-size:var(--t-section);line-height:1.0625;letter-spacing:-.009em;font-weight:600;max-width:16ch;text-wrap:balance}
 .why-item p{margin-top:clamp(1.25rem,3vh,2rem);font-size:var(--t-lede);color:var(--ink-2);max-width:44ch;line-height:1.45;text-wrap:balance}
 
 /* ---------- FAQ ---------- */
@@ -382,7 +388,7 @@ b,strong{font-weight:600;color:var(--ink)}
 .faq-q{
   width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;
   padding-block:clamp(1.4rem,3vh,2rem);text-align:left;
-  font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:-.025em;font-weight:500;line-height:1.3;
+  font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:-.015em;font-weight:600;line-height:1.3;
   transition:color .3s;
 }
 .faq-q:hover{color:var(--link)}
@@ -397,7 +403,7 @@ b,strong{font-weight:600;color:var(--ink)}
 
 /* ---------- CTA final ---------- */
 .final{background:var(--white);text-align:center}
-.final h2{font-size:var(--t-hero);line-height:1.03;letter-spacing:-.045em;font-weight:600;max-width:14ch;margin-inline:auto;text-wrap:balance}
+.final h2{font-size:var(--t-hero);line-height:1.05;letter-spacing:-.015em;font-weight:600;max-width:18ch;margin-inline:auto;text-wrap:balance}
 .final .lede{margin:clamp(1.25rem,3vh,2rem) auto 0}
 .final .mention{margin-top:clamp(1.75rem,4vh,2.5rem);font-size:var(--t-small);color:var(--ink-3)}
 .final .after{margin-top:1rem;font-size:var(--t-small);color:var(--ink-3)}
@@ -469,7 +475,7 @@ b,strong{font-weight:600;color:var(--ink)}
 
 <!-- ============================ HERO ============================ -->
 <section class="hero" id="hero">
-  <div class="wrap">
+  <div class="wrap wrap--wide">
     <p class="eyebrow hero-eyebrow" data-hero>Achat leads qualifiés — Fournisseur exclusif France</p>
 
     <h1 id="hero-title">
@@ -1162,6 +1168,290 @@ b,strong{font-weight:600;color:var(--ink)}
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();
+</script>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.1/build/three.module.min.js",
+  "three/addons/": "https://unpkg.com/three@0.160.1/examples/jsm/"
+} }
+</script>
+<script type="module">
+/* ------------------------------------------------------------------
+   Objets 3D des cartes secteurs.
+   Un seul contexte WebGL pour les six cartes : le canvas est fixe et
+   chaque objet est rendu dans la fenêtre de sa carte (scissor + viewport).
+   Six contextes séparés satureraient le navigateur.
+   ------------------------------------------------------------------ */
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Reflet de marque sur les matériaux. Passer à '#0071e3' pour rester
+   strictement dans la palette Apple du reste de la page. */
+const RIM = '#e8400c';
+
+function webglOK(){
+  try { const c = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl'))); }
+  catch(e){ return false; }
+}
+const arts = [...document.querySelectorAll('.sector-art')];
+if (REDUCED || !webglOK() || !arts.length) throw new Error('3D ignorée, les icônes de repli restent affichées');
+
+const THREE = await import('three');
+
+/* ---------- canvas partagé ---------- */
+const canvas = document.createElement('canvas');
+canvas.id = 'sectorsGL';
+canvas.setAttribute('aria-hidden', 'true');
+document.body.appendChild(canvas);
+
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.setScissorTest(true);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1;
+
+/* Studio maison plutôt que RoomEnvironment : ce dernier émet des valeurs
+   HDR bien supérieures à 1, ce qui transforme tout métal en miroir blanc.
+   Ici le dégradé reste dans [0,1], les reflets sont prévisibles. */
+const envMap = (() => {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 256;
+  const x = c.getContext('2d');
+  const g = x.createLinearGradient(0, 0, 0, 256);
+  g.addColorStop(0, '#ffffff');    // plafond lumineux
+  g.addColorStop(.45, '#e6e9ee');  // horizon
+  g.addColorStop(.62, '#aeb5bf');
+  g.addColorStop(1, '#6c727b');    // sol
+  x.fillStyle = g; x.fillRect(0, 0, 512, 256);
+  // deux boîtes à lumière, pour des hautes lumières franches
+  x.fillStyle = '#ffffff'; x.fillRect(120, 8, 150, 70);
+  x.fillStyle = 'rgba(255,255,255,.75)'; x.fillRect(340, 20, 110, 50);
+  const tex = new THREE.CanvasTexture(c);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const env = pmrem.fromEquirectangular(tex).texture;
+  pmrem.dispose(); tex.dispose();
+  return env;
+})();
+
+const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+camera.position.set(0, 0.75, 3.7);
+camera.lookAt(0, -0.05, 0);
+
+/* ---------- ombre douce projetée (texture, pas de shadow map) ---------- */
+const shadowTex = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const g = c.getContext('2d').createRadialGradient(128, 128, 8, 128, 128, 126);
+  g.addColorStop(0, 'rgba(0,0,0,.42)'); g.addColorStop(.55, 'rgba(0,0,0,.15)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  const ctx = c.getContext('2d'); ctx.fillStyle = g; ctx.fillRect(0, 0, 256, 256);
+  return new THREE.CanvasTexture(c);
+})();
+function addShadow(scene, w = 2.1, y = -0.92) {
+  const m = new THREE.Mesh(
+    new THREE.PlaneGeometry(w, w * 0.62),
+    new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, opacity: .9 })
+  );
+  m.rotation.x = -Math.PI / 2; m.position.y = y; scene.add(m);
+}
+
+/* ---------- matériaux : blanc/gris dominant, reflets discrets ---------- */
+const mat = {
+  /* Gris soutenus : sur un fond #f5f5f7, des matières trop claires
+     disparaissent. Le volume vient du contraste, pas de l'ajout de lumière. */
+  cells:  () => new THREE.MeshPhysicalMaterial({ color: '#14293c', metalness: .55, roughness: .22, clearcoat: .6, clearcoatRoughness: .12, envMap, envMapIntensity: 1 }),
+  glass:  () => new THREE.MeshPhysicalMaterial({ color: '#9aa5b2', metalness: .5, roughness: .2, clearcoat: .8, clearcoatRoughness: .12, envMap, envMapIntensity: 1.1 }),
+  metal:  () => new THREE.MeshPhysicalMaterial({ color: '#8d939d', metalness: .92, roughness: .24, envMap, envMapIntensity: 1.25 }),
+  matte:  () => new THREE.MeshPhysicalMaterial({ color: '#cfd4da', metalness: .04, roughness: .66, envMap, envMapIntensity: .6 }),
+  satin:  () => new THREE.MeshPhysicalMaterial({ color: '#b4bac4', metalness: .4, roughness: .32, clearcoat: .6, clearcoatRoughness: .25, envMap, envMapIntensity: 1 }),
+  accent: (e = .14) => new THREE.MeshPhysicalMaterial({ color: '#b9bec7', metalness: .6, roughness: .26, emissive: RIM, emissiveIntensity: e, envMap, envMapIntensity: 1.1 })
+};
+
+/* ---------- lumières : key, fill, rim orange ---------- */
+function light(scene) {
+  const key = new THREE.DirectionalLight(0xffffff, 3.2); key.position.set(3, 4.5, 4);
+  const fill = new THREE.DirectionalLight(0xffffff, .45); fill.position.set(-4, .5, 2.5);
+  const rim = new THREE.PointLight(new THREE.Color(RIM), 11, 8, 2); rim.position.set(-1.9, 1.1, -1.9);
+  scene.add(key, fill, rim, new THREE.AmbientLight(0xffffff, .12));
+}
+
+/* ---------- les six objets ---------- */
+function extrude(shape, depth, bevel) {
+  return new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 5, curveSegments: 48 });
+}
+
+const build = {
+  /* panneau solaire : cadre métal, cellules vitrées, léger piètement */
+  solaire() {
+    const g = new THREE.Group(), panel = new THREE.Group();
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(1.72, .07, 1.14), mat.metal());
+    const cells = new THREE.Mesh(new THREE.BoxGeometry(1.6, .04, 1.02), mat.cells());
+    cells.position.y = .04;
+    for (let i = -3; i <= 3; i++) {
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(.016, .05, 1.02), mat.metal());
+      bar.position.set(i * .215, .065, 0); panel.add(bar);
+    }
+    const cross = new THREE.Mesh(new THREE.BoxGeometry(1.6, .05, .012), mat.metal());
+    cross.position.y = .06;
+    panel.add(frame, cells, cross);
+    panel.rotation.x = -.62;
+    const foot = new THREE.Mesh(new THREE.CylinderGeometry(.05, .07, .8, 24), mat.metal());
+    foot.position.y = -.52;
+    g.add(panel, foot);
+    return { group: g, spin: .17 };
+  },
+  /* maison low-poly : volume mat, toit en prisme */
+  immobilier() {
+    const g = new THREE.Group();
+    const body = new THREE.Mesh(new THREE.BoxGeometry(1.15, .82, 1.0), mat.matte());
+    body.position.y = -.18;
+    /* toit en triangle extrudé : l'orientation d'un prisme CylinderGeometry
+       dépend de thetaStart, une Shape est prévisible */
+    const tri = new THREE.Shape();
+    tri.moveTo(-.72, 0); tri.lineTo(.72, 0); tri.lineTo(0, .56); tri.closePath();
+    const roof = new THREE.Mesh(
+      new THREE.ExtrudeGeometry(tri, { depth: 1.04, bevelEnabled: true, bevelThickness: .02, bevelSize: .02, bevelSegments: 2 }),
+      mat.satin()
+    );
+    roof.geometry.center();
+    roof.position.y = .5;
+    const door = new THREE.Mesh(new THREE.BoxGeometry(.26, .38, .04), mat.accent(.1));
+    door.position.set(0, -.4, .51);
+    g.add(body, roof, door);
+    return { group: g, spin: .12 };
+  },
+  /* bouclier satiné */
+  assurance() {
+    const sh = new THREE.Shape();
+    sh.moveTo(0, .95);
+    sh.bezierCurveTo(.62, .78, .74, .62, .74, .18);
+    sh.bezierCurveTo(.74, -.42, .38, -.82, 0, -.98);
+    sh.bezierCurveTo(-.38, -.82, -.74, -.42, -.74, .18);
+    sh.bezierCurveTo(-.74, .62, -.62, .78, 0, .95);
+    const m = new THREE.Mesh(extrude(sh, .16, .05), mat.satin());
+    m.geometry.center();
+    const g = new THREE.Group(); g.add(m);
+    const core = new THREE.Mesh(new THREE.SphereGeometry(.2, 40, 28), mat.accent(.09));
+    core.position.z = .16; g.add(core);
+    return { group: g, spin: .14 };
+  },
+  /* pile de disques métalliques */
+  finance() {
+    const g = new THREE.Group();
+    for (let i = 0; i < 5; i++) {
+      const c = new THREE.Mesh(new THREE.CylinderGeometry(.52 - i * .015, .52 - i * .015, .13, 56), i === 2 ? mat.accent(.09) : mat.metal());
+      c.position.y = -.52 + i * .155;
+      c.rotation.y = i * .22;
+      c.position.x = Math.sin(i * 1.7) * .035;
+      g.add(c);
+    }
+    return { group: g, spin: .16 };
+  },
+  /* onde torsadée, très légère émission */
+  telecom() {
+    const g = new THREE.Group();
+    const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(.58, .15, 220, 32, 2, 3), mat.accent(.12));
+    g.add(knot);
+    return { group: g, spin: .2 };
+  },
+  /* aileron : profil galbé extrudé, évoque le mouvement */
+  automobile() {
+    const sh = new THREE.Shape();
+    sh.moveTo(-1.0, -.12);
+    sh.bezierCurveTo(-.4, .5, .5, .62, 1.02, .16);
+    sh.bezierCurveTo(.72, .1, .2, -.06, -1.0, -.12);
+    const m = new THREE.Mesh(extrude(sh, .3, .06), mat.glass());
+    m.geometry.center();
+    const g = new THREE.Group(); g.add(m);
+    m.rotation.z = .12;
+    const trail = new THREE.Mesh(new THREE.TorusGeometry(.72, .022, 20, 90, Math.PI * 1.15), mat.accent(.22));
+    trail.rotation.set(Math.PI / 2, 0, .5); trail.position.y = -.42;
+    g.add(trail);
+    return { group: g, spin: .15 };
+  }
+};
+
+const ORDER = ['solaire', 'immobilier', 'assurance', 'finance', 'telecom', 'automobile'];
+
+/* ---------- une scène par carte ---------- */
+const items = arts.map((art, i) => {
+  const scene = new THREE.Scene();
+  scene.environment = envMap;
+  light(scene);
+  const { group, spin } = build[ORDER[i] || 'assurance']();
+  const holder = new THREE.Group();
+  holder.add(group);
+  holder.scale.setScalar(.8);
+  scene.add(holder);
+  addShadow(scene);
+  art.classList.add('gl');
+
+  const it = { art, scene, holder, group, spin, phase: i * 1.1, aimX: 0, aimY: 0, curX: 0, curY: 0, shown: false };
+
+  const card = art.closest('.sector');
+  card.addEventListener('pointermove', (e) => {
+    const r = card.getBoundingClientRect();
+    it.aimY = ((e.clientX - r.left) / r.width - .5) * .55;
+    it.aimX = ((e.clientY - r.top) / r.height - .5) * .4;
+  });
+  card.addEventListener('pointerleave', () => { it.aimX = 0; it.aimY = 0; });
+  return it;
+});
+
+/* ---------- apparition à l'entrée dans le viewport ---------- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((en) => {
+    if (!en.isIntersecting) return;
+    const it = items.find((x) => x.art === en.target);
+    if (!it || it.shown) return;
+    it.shown = true;
+    if (window.gsap) gsap.to(it.holder.scale, { x: 1, y: 1, z: 1, duration: 1.1, ease: 'expo.out' });
+    else it.holder.scale.setScalar(1);
+  });
+}, { threshold: .25 });
+items.forEach((it) => io.observe(it.art));
+
+/* ---------- boucle unique, rendu par ciseaux ---------- */
+function resize() {
+  const w = window.innerWidth, h = window.innerHeight;
+  if (canvas.width !== w * renderer.getPixelRatio()) renderer.setSize(w, h, false);
+}
+resize();
+window.addEventListener('resize', resize);
+
+const clock = new THREE.Clock();
+let started = false;
+function loop() {
+  const t = clock.getElapsedTime();
+  const dt = Math.min(clock.getDelta(), .05);
+  const H = renderer.domElement.clientHeight || window.innerHeight;
+
+  items.forEach((it) => {
+    const r = it.art.getBoundingClientRect();
+    if (r.bottom < -40 || r.top > window.innerHeight + 40 || r.right < 0 || r.left > window.innerWidth) return;
+
+    /* apesanteur + rotation lente sur Y */
+    it.group.position.y = Math.sin(t * .7 + it.phase) * .07;
+    it.group.rotation.y += dt * it.spin;
+    /* inclinaison douce vers le curseur */
+    it.curX += (it.aimX - it.curX) * .06;
+    it.curY += (it.aimY - it.curY) * .06;
+    it.holder.rotation.x = it.curX;
+    it.holder.rotation.z = it.curY * .35;
+    it.holder.rotation.y = it.curY;
+
+    const x = r.left, y = H - r.bottom, w = r.width, h = r.height;
+    renderer.setViewport(x, y, w, h);
+    renderer.setScissor(x, y, w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.render(it.scene, camera);
+  });
+
+  if (!started) { started = true; canvas.classList.add('on'); }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
 </script>
 
 </body>
