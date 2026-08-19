@@ -25,12 +25,12 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_dequeue_style( 'hello-elementor-header-footer' );
 		wp_dequeue_style( 'elementor-frontend' );
 
-		// Polices. À terme, mieux vaut les héberger localement (voir INSTALLATION.md).
+		// Polices hébergées sur le domaine : aucun appel aux serveurs de Google.
 		wp_enqueue_style(
 			'jj-refonte-fonts',
-			'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap',
+			get_stylesheet_directory_uri() . '/assets/fonts.css',
 			array(),
-			null
+			JJ_REFONTE_VERSION
 		);
 		wp_enqueue_style(
 			'jj-refonte',

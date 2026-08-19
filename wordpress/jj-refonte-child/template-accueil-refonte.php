@@ -7,6 +7,8 @@
  * WP Statistics et les autres extensions continuent de fonctionner.
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+$jj_assets = get_stylesheet_directory_uri() . '/assets';
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -477,9 +479,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 </script>
 
 <!-- ============================ SCRIPTS ============================ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="<?php echo esc_url( $jj_assets ); ?>/vendor/gsap.min.js"></script>
+<script src="<?php echo esc_url( $jj_assets ); ?>/vendor/ScrollTrigger.min.js"></script>
+<script src="<?php echo esc_url( $jj_assets ); ?>/vendor/lenis.min.js"></script>
 <script>
 (function () {
   'use strict';
@@ -744,7 +746,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 </script>
 
 <script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.160.1/build/three.module.js" } }
+{ "imports": { "three": "<?php echo esc_url( $jj_assets ); ?>/vendor/three.module.min.js" } }
 </script>
 <script type="module">
 /* ------------------------------------------------------------------

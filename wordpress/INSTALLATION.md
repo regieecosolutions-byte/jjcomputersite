@@ -66,17 +66,28 @@ ne détruit rien.
 Le modèle appelle `wp_head()` et `wp_footer()`, donc **Complianz et WP Statistics
 s'injectent normalement** : le bandeau de consentement et le suivi restent en place.
 
-## Deux points à traiter ensuite
+## Aucune dépendance externe
 
-**Les polices Google.** Elles sont chargées depuis les serveurs de Google. La CNIL
-considère ce chargement comme un transfert de données ; sur un site qui met en avant sa
-conformité RGPD, mieux vaut héberger les trois familles (Inter, Instrument Serif,
-JetBrains Mono) dans `assets/fonts/` et servir le CSS localement. C'est une demi-heure
-de travail, dis-le-moi et je le fais.
+Les polices (Inter, Instrument Serif, JetBrains Mono) et les bibliothèques d'animation
+(GSAP, ScrollTrigger, Lenis, Three.js) sont **hébergées sur ton domaine**, dans
+`assets/fonts/` et `assets/vendor/`. La page ne fait aucune requête vers Google, cdnjs
+ou unpkg.
 
-**Les bibliothèques d'animation.** GSAP, Lenis et Three.js sont chargés depuis des CDN
-publics (cdnjs, unpkg). Pour la production, il est plus sain de les copier dans
-`assets/vendor/` : tu ne dépends plus d'un service tiers et tu maîtrises les versions.
+Deux conséquences concrètes :
+
+- **RGPD.** Le chargement des Google Fonts depuis les serveurs de Google transmet
+  l'adresse IP du visiteur ; la CNIL le traite comme un transfert de données. Ici la
+  question ne se pose plus, ce qui est cohérent avec un site qui met la conformité en avant.
+- **Robustesse.** Plus de dépendance à la disponibilité d'un CDN, et les versions sont
+  figées : une mise à jour amont ne peut pas casser la page du jour au lendemain.
+
+Poids des ressources, une fois compressées par le serveur : environ 60 Ko de polices
+réellement chargées et 212 Ko de JavaScript, dont 163 Ko pour Three.js. Le module 3D est
+chargé en différé (`type="module"`), il ne retarde pas l'affichage du texte. Vérifie que
+la compression gzip ou brotli est active chez ton hébergeur, c'est ce qui fait passer
+Three.js de 656 Ko à 163 Ko.
+
+Les licences des composants embarqués sont listées dans `LICENCES.md`.
 
 ## Si quelque chose se passe mal
 
