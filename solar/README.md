@@ -70,9 +70,14 @@ pleine page.
 - Menthe/cyan validés (contraste ≥ 3:1 sur fond sombre, séparation CVD) ;
   la menthe n'est jamais une couleur seule (icône + libellé « Qualifié »).
 
+## Intégration WordPress
+
+Depuis le thème enfant 1.3.0, cette direction est le troisième modèle de page
+(**Accueil Solar JJ**) de `wordpress/jj-refonte-child` : polices (Syne, DM Sans,
+DM Mono) et bibliothèques hébergées sur le domaine, zéro requête externe.
+Cette version autonome (`solar/index.html`) reste la maquette de référence,
+avec ses CDN, pour itérer rapidement.
+
 ## Avant mise en production
 
-- Héberger polices (Syne, DM Sans, DM Mono) et bibliothèques (GSAP,
-  ScrollTrigger, Lenis, Three.js) en local, comme fait pour le thème WordPress
-  des deux autres directions (RGPD + robustesse).
 - Remplacer le logo texte par le fichier officiel si souhaité.

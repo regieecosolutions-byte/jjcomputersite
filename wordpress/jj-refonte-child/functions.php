@@ -1,6 +1,7 @@
 <?php
 /**
- * Thème enfant JJ-Computer — modèle « Accueil refonte JJ ».
+ * Thème enfant JJ-Computer — modèles « Accueil refonte JJ »,
+ * « Accueil Apple JJ » et « Accueil Solar JJ ».
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -10,8 +11,11 @@ if ( ! defined( 'JJ_REFONTE_TEMPLATE' ) ) {
 if ( ! defined( 'JJ_APPLE_TEMPLATE' ) ) {
 	define( 'JJ_APPLE_TEMPLATE', 'template-accueil-apple.php' );
 }
+if ( ! defined( 'JJ_SOLAR_TEMPLATE' ) ) {
+	define( 'JJ_SOLAR_TEMPLATE', 'template-accueil-solar.php' );
+}
 if ( ! defined( 'JJ_REFONTE_VERSION' ) ) {
-	define( 'JJ_REFONTE_VERSION', '1.2.0' );
+	define( 'JJ_REFONTE_VERSION', '1.3.0' );
 }
 
 /** La page courante utilise-t-elle le modèle éditorial ? */
@@ -24,9 +28,14 @@ function jj_apple_is_active() {
 	return is_page_template( JJ_APPLE_TEMPLATE );
 }
 
-/** L'une ou l'autre des deux refontes. */
+/** La page courante utilise-t-elle le modèle Solar Flare ? */
+function jj_solar_is_active() {
+	return is_page_template( JJ_SOLAR_TEMPLATE );
+}
+
+/** L'une des trois refontes. */
 function jj_any_refonte() {
-	return jj_refonte_is_active() || jj_apple_is_active();
+	return jj_refonte_is_active() || jj_apple_is_active() || jj_solar_is_active();
 }
 
 /** Yoast SEO est-il actif ? Si oui, c'est lui qui pilote les balises. */
@@ -60,6 +69,23 @@ add_action( 'wp_enqueue_scripts', function () {
 			wp_enqueue_style(
 				'jj-apple',
 				get_stylesheet_directory_uri() . '/assets/apple.css',
+				array(),
+				JJ_REFONTE_VERSION
+			);
+			return;
+		}
+
+		if ( jj_solar_is_active() ) {
+			// Direction Solar Flare : Syne, DM Sans et DM Mono hébergées sur le domaine.
+			wp_enqueue_style(
+				'jj-solar-fonts',
+				get_stylesheet_directory_uri() . '/assets/solar-fonts.css',
+				array(),
+				JJ_REFONTE_VERSION
+			);
+			wp_enqueue_style(
+				'jj-solar',
+				get_stylesheet_directory_uri() . '/assets/solar.css',
 				array(),
 				JJ_REFONTE_VERSION
 			);
@@ -144,7 +170,7 @@ add_action( 'wp_head', function () {
 		return;
 	}
 	?>
-<meta name="theme-color" content="<?php echo jj_apple_is_active() ? '#ffffff' : '#F4F2ED'; ?>">
+<meta name="theme-color" content="<?php echo jj_solar_is_active() ? '#0B0A14' : ( jj_apple_is_active() ? '#ffffff' : '#F4F2ED' ); ?>">
 <meta name="keywords" content="achat leads qualifiés, leads exclusifs, fournisseur de leads France, leads rénovation énergétique, leads immobilier, leads assurance, génération de leads, leads RGPD">
 	<?php
 	// Avec Yoast, tout le reste est déjà produit par l'extension.

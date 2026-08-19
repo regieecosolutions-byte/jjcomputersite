@@ -26,16 +26,17 @@ Hello Elementor hérite de tout le parent. Seul un nouveau modèle de page appar
 > Si WordPress refuse le fichier au motif que le thème parent est absent, vérifie que
 > le thème **Hello Elementor** est bien installé (il l'est, c'est ton thème actuel).
 
-## Deux directions disponibles
+## Trois directions disponibles
 
-Depuis la version 1.2.0, le thème propose **deux modèles de page d'accueil**. Tu choisis
-lequel appliquer à une page, et tu peux même les publier tous les deux sur des adresses
-différentes pour les comparer avant de trancher.
+Depuis la version 1.3.0, le thème propose **trois modèles de page d'accueil**. Tu choisis
+lequel appliquer à une page, et tu peux même les publier sur des adresses différentes
+pour les comparer avant de trancher.
 
 | Modèle | Direction |
 |---|---|
 | **Accueil refonte JJ** | Éditorial : papier chaud, encre, accent vermillon, blob 3D dans le hero. C'est la version actuellement en ligne. |
 | **Accueil Apple JJ** | Blanc et gris clair, typographie et palette Apple, hero avec tableau de bord flottant, objets 3D dans les secteurs. |
+| **Accueil Solar JJ** | « Solar Flare » : noir-violet velouté, dégradé magenta→orange→doré sur les mots-clés, dashboard vivant dans le hero, sections épinglées au scroll, objets 3D dans les secteurs. |
 
 La procédure ci-dessous est identique pour les deux : seule change l'entrée choisie dans
 le menu **Modèle**.
@@ -45,7 +46,7 @@ le menu **Modèle**.
 1. **Pages → Ajouter**
 2. Titre : `Refonte` (l'adresse sera `https://jj-computer.fr/refonte/`)
 3. Dans la colonne de droite, section **Attributs de page** → **Modèle** :
-   choisis **Accueil refonte JJ** ou **Accueil Apple JJ**
+   choisis **Accueil refonte JJ**, **Accueil Apple JJ** ou **Accueil Solar JJ**
 4. Ne mets aucun contenu dans l'éditeur : la page est entièrement portée par le modèle
 5. **Publier**
 
@@ -86,6 +87,17 @@ Même chemin que pour l'installation : **Apparence → Thèmes → Ajouter un th
 Téléverser un thème**, choisis le nouveau ZIP, puis **Installer**. WordPress détecte
 qu'une version est déjà présente et affiche un tableau comparatif : clique sur
 **Remplacer l'actuel par celui téléversé**. Ta page et tes réglages sont conservés.
+
+### Ce qu'apporte la 1.3.0
+
+Le troisième modèle, **Accueil Solar JJ**, avec ses styles (`assets/solar.css`) et ses
+polices dédiées (Syne, DM Sans, DM Mono), **hébergées sur ton domaine** dans
+`assets/fonts/` comme les autres — environ 170 Ko de woff2, chargés uniquement sur ce
+modèle. Il partage les bibliothèques locales (GSAP, ScrollTrigger, Lenis, Three.js) et
+les réglages SEO Yoast des deux autres modèles, y compris le `noindex` automatique de
+la page de test. Avec `prefers-reduced-motion` (ou sans JavaScript), la page s'affiche
+complète et statique : compteurs à leur valeur finale, secteurs en grille, étapes
+empilées.
 
 ### Ce qu'apporte la 1.2.0
 
