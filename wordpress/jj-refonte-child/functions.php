@@ -4,12 +4,29 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'JJ_REFONTE_TEMPLATE', 'template-accueil-refonte.php' );
-define( 'JJ_REFONTE_VERSION', '1.0.0' );
+if ( ! defined( 'JJ_REFONTE_TEMPLATE' ) ) {
+	define( 'JJ_REFONTE_TEMPLATE', 'template-accueil-refonte.php' );
+}
+if ( ! defined( 'JJ_REFONTE_VERSION' ) ) {
+	define( 'JJ_REFONTE_VERSION', '1.1.0' );
+}
 
 /** La page courante utilise-t-elle le modèle de la refonte ? */
 function jj_refonte_is_active() {
 	return is_page_template( JJ_REFONTE_TEMPLATE );
+}
+
+/** Yoast SEO est-il actif ? Si oui, c'est lui qui pilote les balises. */
+function jj_refonte_has_yoast() {
+	return defined( 'WPSEO_VERSION' );
+}
+
+/** Titre et description de la refonte, définis une seule fois. */
+function jj_refonte_title() {
+	return 'Achat de leads qualifiés exclusifs en France | JJ-Computer.fr';
+}
+function jj_refonte_description() {
+	return "JJ-Computer.fr, fournisseur français de leads qualifiés exclusifs : rénovation énergétique, immobilier, assurance, finance, télécom et automobile. Livraison sous 48h, 100% conformes RGPD.";
 }
 
 /**
@@ -44,12 +61,51 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'hello-elementor-parent', get_template_directory_uri() . '/style.css', array(), null );
 }, 20 );
 
-/** Titre du document, repris à l'identique de la maquette validée. */
+/** Titre du document (cas où Yoast n'est pas actif). */
 add_filter( 'pre_get_document_title', function ( $title ) {
-	if ( jj_refonte_is_active() ) {
-		return 'Achat de leads qualifiés exclusifs en France | JJ-Computer.fr';
+	return jj_refonte_is_active() ? jj_refonte_title() : $title;
+}, 99 );
+
+/**
+ * Cohabitation avec Yoast SEO.
+ * Plutôt que de produire des balises concurrentes, on alimente Yoast :
+ * il reste seul responsable du titre, de la description, de l'Open Graph,
+ * du canonical et du graphe schema.org. Zéro balise en double.
+ */
+add_filter( 'wpseo_title', function ( $title ) {
+	return jj_refonte_is_active() ? jj_refonte_title() : $title;
+}, 99 );
+
+add_filter( 'wpseo_opengraph_title', function ( $title ) {
+	return jj_refonte_is_active() ? jj_refonte_title() : $title;
+}, 99 );
+
+add_filter( 'wpseo_metadesc', function ( $desc ) {
+	return jj_refonte_is_active() ? jj_refonte_description() : $desc;
+}, 99 );
+
+add_filter( 'wpseo_opengraph_desc', function ( $desc ) {
+	return jj_refonte_is_active() ? jj_refonte_description() : $desc;
+}, 99 );
+
+/**
+ * Phase de test : tant que la refonte n'est pas la page d'accueil, on demande
+ * à Yoast de la passer en noindex. Une fois déclarée comme accueil, la règle
+ * ne s'applique plus et la page est indexable normalement.
+ */
+add_filter( 'wpseo_robots', function ( $robots ) {
+	if ( jj_refonte_is_active() && ! is_front_page() ) {
+		return 'noindex, nofollow';
 	}
-	return $title;
+	return $robots;
+}, 99 );
+
+add_filter( 'wpseo_robots_array', function ( $robots ) {
+	if ( jj_refonte_is_active() && ! is_front_page() ) {
+		$robots['index']  = 'noindex';
+		$robots['follow'] = 'nofollow';
+	}
+	return $robots;
 }, 99 );
 
 /**
@@ -63,16 +119,22 @@ add_action( 'wp_head', function () {
 	if ( ! jj_refonte_is_active() ) {
 		return;
 	}
+	?>
+<meta name="theme-color" content="#F4F2ED">
+<meta name="keywords" content="achat leads qualifiés, leads exclusifs, fournisseur de leads France, leads rénovation énergétique, leads immobilier, leads assurance, génération de leads, leads RGPD">
+	<?php
+	// Avec Yoast, tout le reste est déjà produit par l'extension.
+	if ( jj_refonte_has_yoast() ) {
+		return;
+	}
 
-	$desc = "JJ-Computer.fr, fournisseur français de leads qualifiés exclusifs : rénovation énergétique, immobilier, assurance, finance, télécom et automobile. Livraison sous 48h, 100% conformes RGPD.";
+	$desc = jj_refonte_description();
 	?>
 <meta name="description" content="<?php echo esc_attr( $desc ); ?>">
-<meta name="keywords" content="achat leads qualifiés, leads exclusifs, fournisseur de leads France, leads rénovation énergétique, leads immobilier, leads assurance, génération de leads, leads RGPD">
-<meta property="og:title" content="Achat de leads qualifiés exclusifs en France | JJ-Computer.fr">
+<meta property="og:title" content="<?php echo esc_attr( jj_refonte_title() ); ?>">
 <meta property="og:description" content="<?php echo esc_attr( $desc ); ?>">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jj-computer.fr/">
-<meta name="theme-color" content="#F4F2ED">
 	<?php if ( ! is_front_page() ) : ?>
 <meta name="robots" content="noindex,nofollow">
 	<?php endif; ?>

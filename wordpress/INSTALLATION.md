@@ -66,6 +66,25 @@ ne détruit rien.
 Le modèle appelle `wp_head()` et `wp_footer()`, donc **Complianz et WP Statistics
 s'injectent normalement** : le bandeau de consentement et le suivi restent en place.
 
+## Mettre à jour le thème (version 1.1.0 et suivantes)
+
+Même chemin que pour l'installation : **Apparence → Thèmes → Ajouter un thème →
+Téléverser un thème**, choisis le nouveau ZIP, puis **Installer**. WordPress détecte
+qu'une version est déjà présente et affiche un tableau comparatif : clique sur
+**Remplacer l'actuel par celui téléversé**. Ta page et tes réglages sont conservés.
+
+### Ce que corrige la 1.1.0
+
+Le site utilise **Yoast SEO**, qui produit lui aussi titre, description, Open Graph,
+canonical et graphe schema.org. En 1.0.0, le thème produisait les siens en parallèle :
+sur la page de test, cela donnait deux balises `og:title`, deux balises `robots`
+contradictoires et deux blocs `Organization`.
+
+Désormais, quand Yoast est actif, le thème ne produit plus ces balises : il **alimente
+Yoast** par ses filtres, avec le titre et la description validés. Yoast reste seul
+maître à bord, et la mise en `noindex` de la page de test passe aussi par lui. Sans
+Yoast, le thème reprend la main et produit tout lui-même.
+
 ## Aucune dépendance externe
 
 Les polices (Inter, Instrument Serif, JetBrains Mono) et les bibliothèques d'animation
