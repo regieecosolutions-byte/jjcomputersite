@@ -26,12 +26,26 @@ Hello Elementor hérite de tout le parent. Seul un nouveau modèle de page appar
 > Si WordPress refuse le fichier au motif que le thème parent est absent, vérifie que
 > le thème **Hello Elementor** est bien installé (il l'est, c'est ton thème actuel).
 
+## Deux directions disponibles
+
+Depuis la version 1.2.0, le thème propose **deux modèles de page d'accueil**. Tu choisis
+lequel appliquer à une page, et tu peux même les publier tous les deux sur des adresses
+différentes pour les comparer avant de trancher.
+
+| Modèle | Direction |
+|---|---|
+| **Accueil refonte JJ** | Éditorial : papier chaud, encre, accent vermillon, blob 3D dans le hero. C'est la version actuellement en ligne. |
+| **Accueil Apple JJ** | Blanc et gris clair, typographie et palette Apple, hero avec tableau de bord flottant, objets 3D dans les secteurs. |
+
+La procédure ci-dessous est identique pour les deux : seule change l'entrée choisie dans
+le menu **Modèle**.
+
 ## 3. Créer la page de test
 
 1. **Pages → Ajouter**
 2. Titre : `Refonte` (l'adresse sera `https://jj-computer.fr/refonte/`)
 3. Dans la colonne de droite, section **Attributs de page** → **Modèle** :
-   choisis **Accueil refonte JJ**
+   choisis **Accueil refonte JJ** ou **Accueil Apple JJ**
 4. Ne mets aucun contenu dans l'éditeur : la page est entièrement portée par le modèle
 5. **Publier**
 
@@ -72,6 +86,13 @@ Même chemin que pour l'installation : **Apparence → Thèmes → Ajouter un th
 Téléverser un thème**, choisis le nouveau ZIP, puis **Installer**. WordPress détecte
 qu'une version est déjà présente et affiche un tableau comparatif : clique sur
 **Remplacer l'actuel par celui téléversé**. Ta page et tes réglages sont conservés.
+
+### Ce qu'apporte la 1.2.0
+
+Le second modèle, **Accueil Apple JJ**, avec ses propres styles (`assets/apple.css`) et
+ses objets 3D. Il n'utilise aucune police téléchargée : la pile SF Pro d'Apple est déjà
+présente sur les appareils Apple et retombe sur Helvetica ailleurs. Il partage les mêmes
+bibliothèques locales que l'autre modèle, et les mêmes réglages SEO côté Yoast.
 
 ### Ce que corrige la 1.1.1
 

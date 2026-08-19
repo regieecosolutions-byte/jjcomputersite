@@ -7,13 +7,26 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! defined( 'JJ_REFONTE_TEMPLATE' ) ) {
 	define( 'JJ_REFONTE_TEMPLATE', 'template-accueil-refonte.php' );
 }
+if ( ! defined( 'JJ_APPLE_TEMPLATE' ) ) {
+	define( 'JJ_APPLE_TEMPLATE', 'template-accueil-apple.php' );
+}
 if ( ! defined( 'JJ_REFONTE_VERSION' ) ) {
-	define( 'JJ_REFONTE_VERSION', '1.1.1' );
+	define( 'JJ_REFONTE_VERSION', '1.2.0' );
 }
 
-/** La page courante utilise-t-elle le modèle de la refonte ? */
+/** La page courante utilise-t-elle le modèle éditorial ? */
 function jj_refonte_is_active() {
 	return is_page_template( JJ_REFONTE_TEMPLATE );
+}
+
+/** La page courante utilise-t-elle le modèle Apple ? */
+function jj_apple_is_active() {
+	return is_page_template( JJ_APPLE_TEMPLATE );
+}
+
+/** L'une ou l'autre des deux refontes. */
+function jj_any_refonte() {
+	return jj_refonte_is_active() || jj_apple_is_active();
 }
 
 /** Yoast SEO est-il actif ? Si oui, c'est lui qui pilote les balises. */
@@ -36,11 +49,22 @@ function jj_refonte_description() {
  * Partout ailleurs : comportement normal du thème enfant.
  */
 add_action( 'wp_enqueue_scripts', function () {
-	if ( jj_refonte_is_active() ) {
+	if ( jj_any_refonte() ) {
 		wp_dequeue_style( 'hello-elementor' );
 		wp_dequeue_style( 'hello-elementor-theme-style' );
 		wp_dequeue_style( 'hello-elementor-header-footer' );
 		wp_dequeue_style( 'elementor-frontend' );
+
+		if ( jj_apple_is_active() ) {
+			// Direction Apple : pile SF Pro du système, aucune police à charger.
+			wp_enqueue_style(
+				'jj-apple',
+				get_stylesheet_directory_uri() . '/assets/apple.css',
+				array(),
+				JJ_REFONTE_VERSION
+			);
+			return;
+		}
 
 		// Polices hébergées sur le domaine : aucun appel aux serveurs de Google.
 		wp_enqueue_style(
@@ -63,7 +87,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 /** Titre du document (cas où Yoast n'est pas actif). */
 add_filter( 'pre_get_document_title', function ( $title ) {
-	return jj_refonte_is_active() ? jj_refonte_title() : $title;
+	return jj_any_refonte() ? jj_refonte_title() : $title;
 }, 99 );
 
 /**
@@ -73,19 +97,19 @@ add_filter( 'pre_get_document_title', function ( $title ) {
  * du canonical et du graphe schema.org. Zéro balise en double.
  */
 add_filter( 'wpseo_title', function ( $title ) {
-	return jj_refonte_is_active() ? jj_refonte_title() : $title;
+	return jj_any_refonte() ? jj_refonte_title() : $title;
 }, 99 );
 
 add_filter( 'wpseo_opengraph_title', function ( $title ) {
-	return jj_refonte_is_active() ? jj_refonte_title() : $title;
+	return jj_any_refonte() ? jj_refonte_title() : $title;
 }, 99 );
 
 add_filter( 'wpseo_metadesc', function ( $desc ) {
-	return jj_refonte_is_active() ? jj_refonte_description() : $desc;
+	return jj_any_refonte() ? jj_refonte_description() : $desc;
 }, 99 );
 
 add_filter( 'wpseo_opengraph_desc', function ( $desc ) {
-	return jj_refonte_is_active() ? jj_refonte_description() : $desc;
+	return jj_any_refonte() ? jj_refonte_description() : $desc;
 }, 99 );
 
 /**
@@ -94,14 +118,14 @@ add_filter( 'wpseo_opengraph_desc', function ( $desc ) {
  * ne s'applique plus et la page est indexable normalement.
  */
 add_filter( 'wpseo_robots', function ( $robots ) {
-	if ( jj_refonte_is_active() && ! is_front_page() ) {
+	if ( jj_any_refonte() && ! is_front_page() ) {
 		return 'noindex, nofollow';
 	}
 	return $robots;
 }, 99 );
 
 add_filter( 'wpseo_robots_array', function ( $robots ) {
-	if ( jj_refonte_is_active() && ! is_front_page() ) {
+	if ( jj_any_refonte() && ! is_front_page() ) {
 		$robots['index']  = 'noindex';
 		$robots['follow'] = 'nofollow';
 	}
@@ -116,11 +140,11 @@ add_filter( 'wpseo_robots_array', function ( $robots ) {
  * fois la page déclarée comme page d'accueil.
  */
 add_action( 'wp_head', function () {
-	if ( ! jj_refonte_is_active() ) {
+	if ( ! jj_any_refonte() ) {
 		return;
 	}
 	?>
-<meta name="theme-color" content="#F4F2ED">
+<meta name="theme-color" content="<?php echo jj_apple_is_active() ? '#ffffff' : '#F4F2ED'; ?>">
 <meta name="keywords" content="achat leads qualifiés, leads exclusifs, fournisseur de leads France, leads rénovation énergétique, leads immobilier, leads assurance, génération de leads, leads RGPD">
 	<?php
 	// Avec Yoast, tout le reste est déjà produit par l'extension.
