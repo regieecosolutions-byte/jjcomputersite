@@ -8,7 +8,7 @@ if ( ! defined( 'JJ_REFONTE_TEMPLATE' ) ) {
 	define( 'JJ_REFONTE_TEMPLATE', 'template-accueil-refonte.php' );
 }
 if ( ! defined( 'JJ_REFONTE_VERSION' ) ) {
-	define( 'JJ_REFONTE_VERSION', '1.1.0' );
+	define( 'JJ_REFONTE_VERSION', '1.1.1' );
 }
 
 /** La page courante utilise-t-elle le modèle de la refonte ? */

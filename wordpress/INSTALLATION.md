@@ -73,6 +73,15 @@ Téléverser un thème**, choisis le nouveau ZIP, puis **Installer**. WordPress 
 qu'une version est déjà présente et affiche un tableau comparatif : clique sur
 **Remplacer l'actuel par celui téléversé**. Ta page et tes réglages sont conservés.
 
+### Ce que corrige la 1.1.1
+
+Sur mobile, la page débordait d'environ 47 px vers la droite : le navigateur élargissait
+le viewport de mise en page jusqu'à la piste du ticker, et l'écran s'ouvrait décalé.
+`overflow-x: hidden` posé sur le seul `body` ne suffit pas à l'empêcher. La règle passe
+en `overflow-x: clip` sur `html` et `body`, avec `hidden` conservé en repli pour Safari 15
+et antérieurs. Mesuré avant/après : largeur de défilement 437 px, désormais 390 px sur un
+écran de 390 px.
+
 ### Ce que corrige la 1.1.0
 
 Le site utilise **Yoast SEO**, qui produit lui aussi titre, description, Open Graph,

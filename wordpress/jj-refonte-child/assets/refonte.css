@@ -46,7 +46,7 @@
   --sp-5:4rem; --sp-6:6rem; --sp-7:9rem;
   --ease:cubic-bezier(.22,.61,.36,1);
 }
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto !important}
 body{
@@ -54,7 +54,11 @@ body{
   font-family:var(--font-sans);font-size:var(--step-0);line-height:1.6;
   font-weight:400;letter-spacing:-.005em;
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  /* clip plutôt que hidden : sur mobile, overflow-x:hidden sur le seul body
+     laisse le viewport de mise en page s'élargir à la piste du ticker.
+     hidden reste en repli pour Safari 15 et antérieurs. */
   overflow-x:hidden;
+  overflow-x:clip;
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
