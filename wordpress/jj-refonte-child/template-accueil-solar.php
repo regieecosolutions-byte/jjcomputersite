@@ -1165,8 +1165,8 @@ function init() {
   renderer.setScissorTest(true);
 
   const COLORS = {
-    body: 0x171426,
-    body2: 0x1e1930,
+    body: 0x3a3258,
+    body2: 0x453a68,
     magenta: 0xff2e63,
     orange: 0xff6b35,
     gold: 0xffc145,
@@ -1174,15 +1174,17 @@ function init() {
     violet: 0x2a1840
   };
 
+  /* Sans environment map, un matériau très métallique rend presque noir :
+     on reste sur un métal modéré, plus clair, qui accroche les lumières. */
   function baseMaterial(extra) {
     return new THREE.MeshStandardMaterial(Object.assign({
-      color: COLORS.body, metalness: 0.9, roughness: 0.3, flatShading: false
+      color: COLORS.body, metalness: 0.5, roughness: 0.35, flatShading: false
     }, extra || {}));
   }
   function edgeLines(geo, color, opacity) {
     return new THREE.LineSegments(
       new THREE.EdgesGeometry(geo, 12),
-      new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: opacity == null ? 0.5 : opacity })
+      new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: opacity == null ? 0.75 : opacity })
     );
   }
 
@@ -1237,7 +1239,7 @@ function init() {
 
       const doorGeo = new THREE.BoxGeometry(0.34, 0.55, 0.05);
       const door = new THREE.Mesh(doorGeo, new THREE.MeshStandardMaterial({
-        color: 0x0b0a14, emissive: COLORS.orange, emissiveIntensity: 0.55, roughness: 0.4
+        color: 0x0b0a14, emissive: COLORS.orange, emissiveIntensity: 0.9, roughness: 0.4
       }));
       door.position.set(0, -0.6, 0.78);
       g.add(door);
@@ -1254,8 +1256,8 @@ function init() {
 
       const ringGeo = new THREE.TorusGeometry(1.4, 0.035, 12, 90);
       const ring = new THREE.Mesh(ringGeo, new THREE.MeshStandardMaterial({
-        color: COLORS.body2, metalness: 0.95, roughness: 0.2,
-        emissive: COLORS.gold, emissiveIntensity: 0.35
+        color: COLORS.body2, metalness: 0.7, roughness: 0.25,
+        emissive: COLORS.gold, emissiveIntensity: 0.55
       }));
       ring.rotation.x = 1.1;
       g.add(ring);
@@ -1284,16 +1286,16 @@ function init() {
       radii.forEach(function (r, i) {
         const torusGeo = new THREE.TorusGeometry(r, 0.035, 10, 80);
         const t = new THREE.Mesh(torusGeo, new THREE.MeshStandardMaterial({
-          color: COLORS.body2, metalness: 0.9, roughness: 0.25,
+          color: COLORS.body2, metalness: 0.6, roughness: 0.3,
           emissive: i === 1 ? COLORS.cyan : COLORS.orange,
-          emissiveIntensity: 0.4 - i * 0.08
+          emissiveIntensity: 0.65 - i * 0.1
         }));
-        t.rotation.x = Math.PI / 2.4;
+        t.rotation.x = Math.PI / 3.6;
         g.add(t);
       });
       const core = new THREE.Mesh(new THREE.SphereGeometry(0.22, 24, 24),
         new THREE.MeshStandardMaterial({
-          color: 0x0b0a14, emissive: COLORS.cyan, emissiveIntensity: 1.1, roughness: 0.3
+          color: 0x0b0a14, emissive: COLORS.cyan, emissiveIntensity: 1.5, roughness: 0.3
         }));
       g.add(core);
       return { group: g, spin: 0.45 };
@@ -1304,7 +1306,7 @@ function init() {
       const g = new THREE.Group();
       const knotGeo = new THREE.TorusKnotGeometry(0.82, 0.26, 150, 24);
       const knot = new THREE.Mesh(knotGeo, baseMaterial({
-        color: COLORS.body2, metalness: 0.95, roughness: 0.18
+        color: COLORS.body2, metalness: 0.6, roughness: 0.25
       }));
       g.add(knot);
       return { group: g, spin: 0.55 };
@@ -1318,15 +1320,20 @@ function init() {
     const type = card.dataset.object;
     const scene = new THREE.Scene();
 
-    scene.add(new THREE.AmbientLight(COLORS.violet, 2.2));
-    const key = new THREE.PointLight(COLORS.magenta, 2.4, 0, 0);
+    scene.add(new THREE.AmbientLight(0x8a7ab8, 1.6));
+    scene.add(new THREE.HemisphereLight(COLORS.gold, COLORS.violet, 1.3));
+    const key = new THREE.PointLight(COLORS.magenta, 4.2, 0, 0);
     key.position.set(-3, 2.2, 4);
     scene.add(key);
-    const fill = new THREE.PointLight(COLORS.gold, 1.9, 0, 0);
+    const fill = new THREE.PointLight(COLORS.gold, 3.2, 0, 0);
     fill.position.set(3.2, -1, 3.2);
     scene.add(fill);
-    const rim = new THREE.DirectionalLight(COLORS.cyan, 1.1);
-    rim.position.set(0.5, 1.5, -3);
+    /* Rim chaud : détache les contours du fond sombre avec le dégradé signature. */
+    const rimWarm = new THREE.DirectionalLight(COLORS.orange, 2.6);
+    rimWarm.position.set(-1.5, 2.5, -3.5);
+    scene.add(rimWarm);
+    const rim = new THREE.DirectionalLight(COLORS.cyan, 1.5);
+    rim.position.set(1.5, 0.5, -3);
     scene.add(rim);
 
     const built = (builders[type] || builders.flow)();

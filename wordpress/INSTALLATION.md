@@ -88,6 +88,30 @@ Téléverser un thème**, choisis le nouveau ZIP, puis **Installer**. WordPress 
 qu'une version est déjà présente et affiche un tableau comparatif : clique sur
 **Remplacer l'actuel par celui téléversé**. Ta page et tes réglages sont conservés.
 
+### Ce que corrige la 1.3.1
+
+Quatre correctifs visuels sur le modèle Solar, remontés depuis un test sur mobile réel :
+
+- **Titres de section en bleu foncé.** Les styles globaux de WordPress (kit Elementor,
+  `theme.json`) imposent une couleur aux balises `h1/h2/h3`, plus spécifique que
+  l'héritage depuis `body` : les titres du modèle Solar en héritaient et viraient au
+  bleu marine de l'ancienne charte. Chaque titre reçoit maintenant une couleur
+  explicite (`#F5F1EA`), et `functions.php` écarte en plus les styles globaux du kit
+  sur ce modèle.
+- **Bouton « Recevoir des leads » sur deux lignes en mobile.** Le bouton du menu
+  repassait le texte à la ligne de façon disgracieuse. Il reste maintenant sur une
+  seule ligne (`white-space:nowrap`) avec un padding resserré sous 560px.
+- **Ticker des secteurs peu lisible.** Le texte défilant était en contour fin
+  quasi invisible sur le fond sombre ; il passe en remplissage plein `#F5F1EA`.
+- **Objets 3D des secteurs trop sombres.** Éclairage renforcé (intensité des
+  sources, ajout d'une lumière hémisphérique et d'un rim light chaud) et matériaux
+  moins métalliques (une forte métallicité sans environment map assombrit le
+  rendu) : les six objets sont nettement plus lisibles, y compris sur mobile en
+  luminosité standard.
+
+Vérifié avec une véritable émulation mobile (390 px, viewport tactile) plutôt
+qu'un simple redimensionnement de fenêtre, sur l'ensemble des sections de la page.
+
 ### Ce qu'apporte la 1.3.0
 
 Le troisième modèle, **Accueil Solar JJ**, avec ses styles (`assets/solar.css`) et ses

@@ -58,8 +58,17 @@ body{
 .wrap{width:min(100% - 3rem,var(--wrap));margin-inline:auto}
 
 a{color:inherit}
-h1,h2,h3{font-family:var(--font-display);font-weight:800;line-height:1.04;letter-spacing:-.02em}
+h1,h2,h3{font-family:var(--font-display);font-weight:800;line-height:1.04;letter-spacing:-.02em;color:inherit}
 em{font-style:normal}
+
+/* Durcissement WordPress : les styles globaux (kit Elementor, theme.json)
+   ciblent h1/h2/h3 et peuvent imposer une couleur de l'ancienne charte.
+   Toutes nos zones de texte reçoivent donc une couleur explicite. */
+.cta__title,
+.process__panel h3,
+.sector h3,
+.why__item h3,
+.faq__item summary{color:var(--text)}
 
 .skip-link{
   position:fixed;top:-100px;left:1rem;z-index:200;
@@ -128,6 +137,7 @@ em{font-style:normal}
   position:relative;display:inline-flex;align-items:center;justify-content:center;
   min-height:48px;padding:.85rem 1.7rem;border-radius:999px;
   font-weight:700;font-size:1rem;text-decoration:none;cursor:pointer;
+  white-space:nowrap;flex:none;
   transition:box-shadow .25s var(--ease-out);
   will-change:transform;
 }
@@ -392,12 +402,11 @@ em{font-style:normal}
   font-family:var(--font-display);font-weight:700;
   font-size:clamp(1.3rem,2.6vw,2rem);letter-spacing:-.01em;
   white-space:nowrap;padding:0 1.6rem;
-  color:transparent;
-  -webkit-text-stroke:1px rgba(245,241,234,.5);
-  transition:color .3s,-webkit-text-stroke-color .3s;
+  color:var(--text);
+  transition:color .3s;
 }
 .ticker__group span:hover{
-  color:var(--orange);-webkit-text-stroke-color:transparent;
+  color:var(--orange);
 }
 .ticker__group i{
   width:8px;height:8px;border-radius:50%;flex:none;
@@ -412,15 +421,20 @@ em{font-style:normal}
 .sec__title{
   font-size:clamp(2.2rem,4.6vw,3.9rem);
   margin:1.2rem 0 1rem;
+  color:var(--text);
 }
 .sec__lede{color:var(--text-soft);max-width:36rem;font-size:1.08rem}
 .sec__title .line{display:block;overflow:visible}
 .sec__title .word{display:inline-block;will-change:transform,opacity,filter}
 
 /* Respirations claires : cartes posées sur le fond sombre */
+.sec--light,
+.sec--light .sec__title,
+.sec--light h3{
+  color:var(--ink);
+}
 .sec--light{
   background:var(--paper);
-  color:var(--ink);
   border-radius:44px;
   width:min(100% - 1.6rem,1520px);
   margin-inline:auto;
@@ -812,6 +826,9 @@ html.no-js .process__panel{position:relative;margin-bottom:1.2rem}
 }
 
 @media (max-width:560px){
+  .nav__inner{gap:.8rem;padding:.5rem .5rem .5rem 1rem}
+  .nav__logo{font-size:1.02rem}
+  .btn--sm{padding:.55rem 1rem;font-size:.85rem}
   .stats__grid{grid-template-columns:1fr}
   .channels__grid{grid-template-columns:1fr}
   .sec{padding:5rem 0}

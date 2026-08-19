@@ -15,7 +15,7 @@ if ( ! defined( 'JJ_SOLAR_TEMPLATE' ) ) {
 	define( 'JJ_SOLAR_TEMPLATE', 'template-accueil-solar.php' );
 }
 if ( ! defined( 'JJ_REFONTE_VERSION' ) ) {
-	define( 'JJ_REFONTE_VERSION', '1.3.0' );
+	define( 'JJ_REFONTE_VERSION', '1.3.1' );
 }
 
 /** La page courante utilise-t-elle le modèle éditorial ? */
@@ -76,6 +76,16 @@ add_action( 'wp_enqueue_scripts', function () {
 		}
 
 		if ( jj_solar_is_active() ) {
+			// Les styles globaux (kit Elementor, theme.json) colorent h1/h2/h3
+			// avec l'ancienne charte : on les écarte sur ce modèle autonome.
+			wp_dequeue_style( 'elementor-global' );
+			wp_dequeue_style( 'global-styles' );
+			wp_dequeue_style( 'classic-theme-styles' );
+			$jj_kit = (int) get_option( 'elementor_active_kit' );
+			if ( $jj_kit ) {
+				wp_dequeue_style( 'elementor-post-' . $jj_kit );
+			}
+
 			// Direction Solar Flare : Syne, DM Sans et DM Mono hébergées sur le domaine.
 			wp_enqueue_style(
 				'jj-solar-fonts',
