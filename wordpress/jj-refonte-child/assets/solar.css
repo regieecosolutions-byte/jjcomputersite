@@ -553,15 +553,9 @@ html.no-js .process__panel{position:relative;margin-bottom:1.2rem}
 }
 
 /* ==========================================================================
-   SECTEURS (pinned horizontal + 3D)
+   SECTEURS (pinned horizontal)
    ========================================================================== */
 .sectors{padding:0;background:var(--bg)}
-#sectors-gl{
-  position:fixed;inset:0;width:100vw;height:100vh;
-  pointer-events:none;z-index:5;
-  opacity:0;transition:opacity .4s;
-}
-#sectors-gl.is-on{opacity:1}
 .sectors__pin{padding:7.5rem 0 5.5rem;overflow:clip}
 .sectors__viewport{margin-top:1rem}
 .sectors__track{
@@ -590,12 +584,20 @@ html.no-js .process__panel{position:relative;margin-bottom:1.2rem}
   color:var(--text-mute);margin-bottom:1rem;
 }
 .sector__stage{
-  display:block;height:190px;margin-bottom:1.3rem;border-radius:18px;
+  display:block;position:relative;height:190px;margin-bottom:1.3rem;border-radius:18px;
+  overflow:hidden;
   background:
     radial-gradient(70% 80% at 50% 60%,rgba(255,80,90,.1),transparent 75%),
     rgba(11,10,20,.45);
   border:1px solid rgba(245,241,234,.07);
 }
+.sector__stage img{
+  display:block;width:100%;height:100%;object-fit:contain;padding:1.4rem;
+  filter:drop-shadow(0 14px 20px rgba(0,0,0,.45));
+  transition:transform .4s var(--ease-out);
+  will-change:transform;
+}
+.sector:hover .sector__stage img{transform:scale(1.08)}
 .sector h3{font-size:1.5rem;margin-bottom:.7rem}
 .sector p{color:var(--text-soft);font-size:.96rem;flex:1}
 .sector__link{
@@ -869,7 +871,8 @@ html.no-js .sector{width:auto}
     animation-iteration-count:1 !important;
     transition-duration:.001s !important;
   }
-  .hero__shader,.cta__shader,#sectors-gl{display:none}
+  .hero__shader,.cta__shader{display:none}
+  .sector:hover .sector__stage img{transform:none}
   .ticker__track{transform:none !important}
   .ticker__mask{overflow-x:auto}
 }

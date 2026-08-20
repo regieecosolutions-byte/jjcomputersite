@@ -11,7 +11,7 @@ respirations en blanc cassé chaud `#F5F1EA`.
 | `index.html` | Structure, contenu intégral repris de la version en ligne, SEO (title, meta, OG, canonical, JSON-LD Organization + FAQPage) |
 | `styles.css` | Système Solar Flare : verre, dégradés, typo XXL, respirations claires arrondies |
 | `app.js` | GSAP + ScrollTrigger + Lenis : shader de fond, reveals, pins, ticker, magnétisme, dashboard |
-| `sectors-3d.js` | Module Three.js : 6 objets 3D des cartes secteurs (un seul contexte WebGL, rendu par ciseaux) |
+| `images/secteurs/` | Visuels détourés des 6 cartes secteurs (WebP, fond transparent) |
 
 ## Prévisualiser
 
@@ -53,8 +53,9 @@ pleine page.
   notifications de leads en boucle, compteur qui s'incrémente.
 - « Comment ça marche » épinglé : ligne de progression dégradée + panneaux en
   fondu (desktop ≥ 900px).
-- Secteurs : galerie horizontale épinglée au scroll (desktop), objets 3D
-  Three.js par carte, accélération de rotation au survol.
+- Secteurs : galerie horizontale épinglée au scroll (desktop), visuels détourés
+  (fond transparent, posés sur le même halo radial sombre que le reste du
+  site) avec zoom léger au survol de la carte et tilt 3D.
 - Ticker : vitesse indexée sur la vélocité Lenis + skew, bouton pause
   (WCAG 2.2.2).
 - Stats : count-up avec flash de glow.

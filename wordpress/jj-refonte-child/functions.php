@@ -15,7 +15,7 @@ if ( ! defined( 'JJ_SOLAR_TEMPLATE' ) ) {
 	define( 'JJ_SOLAR_TEMPLATE', 'template-accueil-solar.php' );
 }
 if ( ! defined( 'JJ_REFONTE_VERSION' ) ) {
-	define( 'JJ_REFONTE_VERSION', '1.3.1' );
+	define( 'JJ_REFONTE_VERSION', '1.3.3' );
 }
 
 /** La page courante utilise-t-elle le modèle éditorial ? */
@@ -48,7 +48,12 @@ function jj_refonte_title() {
 	return 'Achat de leads qualifiés exclusifs en France | JJ-Computer.fr';
 }
 function jj_refonte_description() {
-	return "JJ-Computer.fr, fournisseur français de leads qualifiés exclusifs : rénovation énergétique, immobilier, assurance, finance, télécom et automobile. Livraison sous 48h, 100% conformes RGPD.";
+	return "Achat de leads qualifiés exclusifs en France : rénovation énergétique, immobilier, assurance, finance, télécom, automobile. Livraison 48h, conforme RGPD.";
+}
+
+/** Expression clé Yoast de la refonte : reprise dans le titre et la description ci-dessus. */
+function jj_refonte_focus_keyword() {
+	return 'achat leads qualifiés';
 }
 
 /**
@@ -147,6 +152,33 @@ add_filter( 'wpseo_metadesc', function ( $desc ) {
 add_filter( 'wpseo_opengraph_desc', function ( $desc ) {
 	return jj_any_refonte() ? jj_refonte_description() : $desc;
 }, 99 );
+
+/**
+ * Valeurs par défaut de la métabox Yoast (panneau d'édition de la page) :
+ * expression clé, titre SEO et méta description. Elles n'écrasent jamais
+ * une valeur déjà saisie à la main (le filtre `default_post_metadata` ne se
+ * déclenche que si aucune valeur n'existe encore en base) ; elles évitent
+ * seulement que la métabox affiche des champs vides tant que personne n'a
+ * édité la page de test. Les balises réellement envoyées au navigateur
+ * restent pilotées par les filtres `wpseo_title` / `wpseo_metadesc`
+ * ci-dessus, indépendamment de ceci.
+ */
+add_filter( 'default_post_metadata', function ( $value, $post_id, $meta_key, $single ) {
+	$solar_defaults = array(
+		'_yoast_wpseo_focuskw'  => jj_refonte_focus_keyword(),
+		'_yoast_wpseo_title'    => jj_refonte_title(),
+		'_yoast_wpseo_metadesc' => jj_refonte_description(),
+	);
+	if ( ! isset( $solar_defaults[ $meta_key ] ) ) {
+		return $value;
+	}
+	$template = get_page_template_slug( $post_id );
+	if ( ! in_array( $template, array( JJ_REFONTE_TEMPLATE, JJ_APPLE_TEMPLATE, JJ_SOLAR_TEMPLATE ), true ) ) {
+		return $value;
+	}
+	$default = $solar_defaults[ $meta_key ];
+	return $single ? $default : array( $default );
+}, 10, 4 );
 
 /**
  * Phase de test : tant que la refonte n'est pas la page d'accueil, on demande

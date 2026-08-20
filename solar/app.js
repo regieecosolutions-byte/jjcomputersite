@@ -560,6 +560,17 @@
     return function () { gsap.set(cards, { clearProps: "all" }); };
   });
 
+  /* Visuels secteurs : léger fade + scale-up au scroll, en plus du
+     mouvement de la carte elle-même (image et carte glissent à des
+     rythmes légèrement différents pour donner de la profondeur). */
+  gsap.utils.toArray(".sector__stage img").forEach(function (img) {
+    gsap.set(img, { opacity: 0, scale: 0.88 });
+    gsap.to(img, {
+      opacity: 1, scale: 1, duration: 1, ease: "power3.out",
+      scrollTrigger: { trigger: img, start: "top 90%", once: true }
+    });
+  });
+
   /* ------------------------------------------------------------------
      Pourquoi : lignes qui se dévoilent
      ------------------------------------------------------------------ */

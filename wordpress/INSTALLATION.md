@@ -88,6 +88,65 @@ Téléverser un thème**, choisis le nouveau ZIP, puis **Installer**. WordPress 
 qu'une version est déjà présente et affiche un tableau comparatif : clique sur
 **Remplacer l'actuel par celui téléversé**. Ta page et tes réglages sont conservés.
 
+### Audit 1.3.3 — le score Yoast « 0 mot / 0 lien / 0 image »
+
+Sur la page de test, Yoast affichait 0 mot, 0 lien interne, 0 image dans son
+panneau d'analyse. Vérification faite, texte par texte, lien par lien :
+
+- **Le HTML statique est complet.** Les 1195 mots de la page et ses 32 liens
+  (nav, hero, 6 cartes secteurs, bandeau confiance, CTA final, footer) sont
+  écrits en dur dans `template-accueil-solar.php`, en dehors de toute balise
+  `<script>` — vérifié en isolant le texte hors scripts avant tout rendu
+  JavaScript. Rien n'est injecté ni recréé par GSAP, ScrollTrigger, Lenis ou
+  Three.js : ce JS anime un contenu déjà présent, il ne le fabrique jamais.
+- **Chaque lien a été testé un par un** (position réelle après scroll,
+  `elementFromPoint` au centre de chaque fragment de ligne) : les 32 sont
+  cliquables. Aucun canvas ni halo décoratif ne les recouvre, aucun
+  `pointer-events` mal placé, et Lenis n'appelle `preventDefault()` nulle
+  part sur un lien (le seul `preventDefault()` du thème concerne l'ouverture
+  animée de la FAQ, pas les liens).
+- **La cause réelle du score Yoast à zéro** : ce modèle, comme Apple et
+  refonte avant lui, est un template PHP autonome qui n'appelle jamais
+  `the_content()` — c'est volontaire, documenté depuis la 1.0 (« Ne mets
+  aucun contenu dans l'éditeur »). Le panneau d'analyse de Yoast lit le champ
+  `post_content` de la base de données, qui reste vide par construction ; il
+  ne lit jamais le HTML réellement envoyé au navigateur. Ce n'est donc pas un
+  bug de contenu manquant mais une limite connue de ce pattern, commune aux
+  trois modèles — Google, lui, indexe le HTML rendu (vérifié complet), pas ce
+  score interne à l'éditeur.
+
+Ce qui restait réellement actionnable a été corrigé :
+
+- Expression clé « achat leads qualifiés » définie par défaut dans la
+  métabox Yoast de la page (nouveau filtre `default_post_metadata` :
+  n'écrase jamais une valeur déjà saisie à la main).
+- Titre et méta description SEO également fournis par défaut à la métabox,
+  pour qu'elle ne les affiche plus vides tant que personne ne les a édités.
+- Méta description resserrée à 153 caractères (elle en faisait 187,
+  au-delà du seuil recommandé) et réécrite pour commencer par l'expression
+  clé, qui en était absente.
+- Les 6 images secteurs portent déjà un `alt` qui contient l'expression clé
+  (« Achat de leads qualifiés rénovation énergétique », etc.).
+
+Si tu veux en plus un score 100% vert dans le panneau Yoast lui-même (pas
+seulement un site qui fonctionne), il faut coller le texte de la page dans
+l'éditeur WordPress : le modèle continuera à afficher son propre gabarit
+graphique (`the_content()` n'est jamais appelé côté front), mais Yoast aura
+un vrai texte à analyser côté admin. Demande-le si tu le veux, ce texte peut
+être préparé.
+
+### Ce qu'apporte la 1.3.2
+
+Les six objets 3D Three.js de la section « Six secteurs » du modèle Solar sont
+remplacés par des visuels statiques détourés (WebP, fond transparent, ~40 Ko
+pièce), posés sur le même halo radial sombre que l'ancien emplacement 3D :
+léger zoom de l'image au survol de la carte, tilt 3D conservé sur la carte
+elle-même, apparition en fondu + léger agrandissement au scroll. Le hero et
+le CTA final gardent leurs effets WebGL (shader de fond, dashboard) : rien
+n'y a changé. `sectors-3d.js` est supprimé du modèle Solar ; les modèles
+Apple et refonte, qui utilisent Three.js pour leurs propres objets, ne sont
+pas concernés et continuent de charger la bibliothèque normalement.
+
 ### Ce que corrige la 1.3.1
 
 Quatre correctifs visuels sur le modèle Solar, remontés depuis un test sur mobile réel :
